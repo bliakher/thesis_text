@@ -1,0 +1,62 @@
+
+\chapter{Implementace}\label{kap:implementace}
+
+V této kapitole bude popsána implementace aplikace, která byla provedena na základě návrhu aplikace v kapitole \ref{kap:navrh}. Aplikace je nasazená na adrese \url{https://bliakher.github.io/uredni_desky/}. Zdrojový kód aplikace je zveřejněný na platformě GitHub \footnote{\url{https://github.com/}} na URL \url{https://github.com/bliakher/uredni_desky} a jako příloha \ref{sub:repo1} v podobě snaphotu repozitáře ve formátu ZIP.
+
+Kapitola se bude věnovat hlavně použitým technologiím a dalším implementačním rozhodnutím. Popis projektu včetně souborové struktury a jednotlivých tříd a rozhraní je možné najít ve vývojářské dokumentaci (\autoref{sec:developer-docs}).
+
+\section{Použité technologie}
+
+Jak bylo popsáno v návrhu, aplikace je implementovaná jako \textit{single-page application} na straně klienta. Pro implementaci byl použit programovací jazyk TypeScript v kombinaci s frameworkem React.
+
+\subsection{TypeScript}
+
+TypeScript \cite{TS} je silně typovaný programovací jazyk, který je nadstavbou jazyka JavaScript. TypeScript oproti jazyku JavaScript přidává možnost definovat typy a rozhraní a anotovat proměnné, parametry a návratové hodnoty metod, což umožňuje typovou kontrolu za kompilace. TypeScript je možné transpilovat do jazyka JavaScript, čímž se zajistí podpora na různých prohlížečích.
+
+TypeScript byl pro implementaci projektu vybrán hlavně kvůli možnosti typování, čímž se snažíme vyhnout typovým chybám, které vznikají v jazyce JavaScript. Definovaní rozhraní jednotlivých částí aplikace navíc umožňuje lepší dokumentaci toku dat v aplikaci.
+
+Aplikace využívá TypeScript verze 4.5.5 \footnote{\url{https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-5.html}}, který se transpiluje do ECMAScript verze 5 \cite{ecma5}
+
+\subsection{React}
+
+React\footnote{\url{https://reactjs.org/}} je deklarativní framework pro vývoj uživatelských rozhraní. Na základě studie od JetBrains \cite{JBStudie} se jedná o nejoblíbenější javascriptový framework pro vývoj uživatelských rozhraní. 
+
+React využívá virtuální DOM s memoizací. V paměti si vytváří cache datových struktur, které tvoří aktuálně vyrenderovaný DOM, při aktualizaci vypočítá rozdíl nového a starého stavu a aktualizuje pouze ty části DOM stromu, které jsou ovlivněné změnou stavu. Selektivní renderování umožňuje větší výkon aplikace. \cite{ReactReconciliation}
+
+React vytváří uživatelské rozhraní pomocí komponent. Komponenty jsou nezávislé jednotky, které si udržují vnitřní stav.\cite{ReactComponents} Na základě stavu se komponenta vyrenderuje podle příslušné šablony. Pro psaní šablon React využívá syntaxi JavaScript XML neboli JSX \cite{ReactJSX}, která umožňuje vytvářet HTML prvky v jazyce JavaScript. Díky tomu, mohou být šablony umístěné přímo v kódu.
+
+Aplikace používá React ve verzi 17.0.2 \cite{Reactv17}.
+
+\subsection{React Bootstrap}
+
+Při implementaci byla také použitá knihovna React Bootstrap\footnote{\url{https://react-bootstrap.github.io/}} ve verzi 2.2.2, která obsahuje připravené React komponenty, sloužící pro ostylování aplikace. Jedná se hlavně o prvky pro pozicování, umožňující jednoduše vytvářet rozhraní, která se umí přizpůsobit různým velikostem displeje, a také ostylované řídící prvky, jako jsou tlačítka a formuláře.
+
+Tato knihovna také nabízí velkou kolekci volně použitelných ikon, které je možné importovat jako komponenty.\footnote{\url{https://react-icons.github.io/react-icons}}
+
+\section{Vývojové prostředí}
+
+Vývoj probíhal v editoru Visual Studio Code \footnote{\url{https://code.visualstudio.com/}} s použitím rozšíření pro zvýraznění syntaxe jazyka TypeScript.
+
+Pro instalaci a spravování knihoven byl použit správce balíčků npm \footnote{\url{https://www.npmjs.com/}} ve verzi 8.3.2. Sloužil také pro sestavení a spouštění aplikace pomocí šablony prostředí Create React App.
+
+\subsection{Create React App}\label{sub:create-react}
+
+Create React App\footnote{\url{https://www.npmjs.com/package/create-react-app}} je prostředí pro vývoj a sestavování aplikací v Reactu. Umí vygenerovat šablonu projektu, která podporuje TypeScript. Během vývoje aplikace je možné používat vývojový server, kdy se aplikace automaticky kompiluje a sestavuje po každé změně v kódu a spouští se v běhovém prostředí Node.js \footnote{\url{https://nodejs.org/en/about/}}.
+
+Prostředí využívá kompilátor Babel \footnote{\url{https://babeljs.io/}} pro transpilaci TypeScriptu a JSX do JavaScriptu a Webpack \footnote{\url{https://webpack.js.org/}} pro zabalení kódu do balíčků se statickým obsahem.
+
+Pro použití šablony Create React App je potřeba npm verze 5.6 nebo vyšší a Node.js verze 14 nebo vyšší.
+
+\section{Verzování}
+
+Při vývoji aplikace bylo použito verzování na platformě GitHub \footnote{\url{https://github.com/}}. Repozitář se zdrojovým kódem je dostupný na URL \\ \url{https://github.com/bliakher/uredni_desky} a jako příloha \ref{sub:repo1}. Stav repozitáře na moment odevzdání práce je označený tagem \texttt{odevzdani}.
+
+GitHub je platforma podporující vývoj softwaru za pomoci verzovacího nástroje Git\footnote{\url{https://git-scm.com/}}, což je otevřený verzovací systém.
+
+\section{Nasazení aplikace}
+
+Aplikace je hostovaná pomocí služby GitHub Pages \footnote{\url{https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages}} na adrese \url{https://bliakher.github.io/uredni_desky/}. V repozitáři na GitHub je nastavená větev projektu \textit{gh-pages}, ze které služba GitHub Pages bere obsah pro webovou aplikaci. Při aktualizaci větve se automaticky spustí proces, který nasadí novou verzi aplikace.
+
+Pro sestavení aplikace pro nasazení je použit npm balíček gh-pages \footnote{\url{https://www.npmjs.com/package/gh-pages}}. Tento balíček vyrobí produkční build aplikace, který odešle do větve \textit{gh-pages}, což spustí publikaci na GitHub Pages.
+
+

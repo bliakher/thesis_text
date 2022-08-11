@@ -1,0 +1,27 @@
+%%% Šablona pro jednoduchý soubor formátu PDF/A, jako treba samostatný abstrakt práce.
+
+\documentclass[12pt]{report}
+
+\usepackage[a4paper, hmargin=1in, vmargin=1in]{geometry}
+\usepackage[a-2u]{pdfx}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+
+\begin{document}
+
+%% Nezapomeňte upravit abstrakt.xmpdata.
+
+V rámci bakalářské práce byla navržena a vyvinuta aplikace, která vizualizuje informace z úředních desek, zveřejněné jako otevřená data podle nového jednotného a strojově čitelného formátu definovaného jako OFN (otevřená formální norma).
+Aplikace je určena zájemcům ze široké veřejnosti, kterým umožňuje informace prohlížet a filtrovat, ale také poskytovatelům dat. Aplikace provádí validaci zveřejněných dat a přehledně zobrazuje případné nedostatky v datech.
+K získávání dat využívá aplikace SPARQL endpointů Národního katalogu otevřených dat a Registru práv a povinností. Je navržena jako single-page application implementovaná v TypeScriptu s použitím frameworku React.
+
+
+The Bachelor thesis is about the design and implementation of a web application which visualizes data from public administration bulletin boards. It uses open data published according to a new machine-readable format specified as a Formal Open Standard.
+The application is intended not only for users from the general public, who can use it to search and filter information from bulletin boards, but also for data publishers. The application performs validation of published data and clearly displays any deficiencies.
+To retrieve data the application uses SPARQL endpoints of the National Data Catalog and the Register of rights and obligations. It is implemented as a single-page application in TypeScript using React framework.
+
+
+\end{document}
