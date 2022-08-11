@@ -1,0 +1,298 @@
+%%% Hlavní soubor. Zde se definují základní parametry a odkazuje se na ostatní části. %%%
+
+%% Verze pro jednostranný tisk:
+% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
+% (ale pozor, LaTeX si sám přidává 1in)
+\documentclass[12pt,a4paper]{report}
+\setlength\textwidth{145mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{15mm}
+\setlength\evensidemargin{15mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+% \openright zařídí, aby následující text začínal na pravé straně knihy
+\let\openright=\clearpage
+
+%% Pokud tiskneme oboustranně:
+% \documentclass[12pt,a4paper,twoside,openright]{report}
+% \setlength\textwidth{145mm}
+% \setlength\textheight{247mm}
+% \setlength\oddsidemargin{14.2mm}
+% \setlength\evensidemargin{0mm}
+% \setlength\topmargin{0mm}
+% \setlength\headsep{0mm}
+% \setlength\headheight{0mm}
+% \let\openright=\cleardoublepage
+
+%% Vytváříme PDF/A-2u
+\usepackage[a-2u]{pdfx}
+
+%% Přepneme na českou sazbu a fonty Latin Modern
+\usepackage[czech]{babel}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+
+%% Použité kódování znaků: obvykle latin2, cp1250 nebo utf8:
+\usepackage[utf8]{inputenc}
+
+%%% Další užitečné balíčky (jsou součástí běžných distribucí LaTeXu)
+\usepackage{amsmath}        % rozšíření pro sazbu matematiky
+\usepackage{amsfonts}       % matematické fonty
+\usepackage{amsthm}         % sazba vět, definic apod.
+\usepackage{bbding}         % balíček s nejrůznějšími symboly
+			    % (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
+\usepackage{bm}             % tučné symboly (příkaz \bm)
+\usepackage{graphicx}       % vkládání obrázků
+\usepackage{rotating}
+\usepackage[export]{adjustbox} % rámeček
+\usepackage{fancyvrb}       % vylepšené prostředí pro strojové písmo
+\usepackage{minted}         % balíček pro code highlight
+\usepackage{indentfirst}    % zavede odsazení 1. odstavce kapitoly
+\usepackage{natbib}         % zajištuje možnost odkazovat na literaturu
+			    % stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
+\usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
+                            % obrázků a tabulek do obsahu
+\usepackage{icomma}         % inteligetní čárka v matematickém módu
+\usepackage{dcolumn}        % lepší zarovnání sloupců v tabulkách
+\usepackage{booktabs}       % lepší vodorovné linky v tabulkách
+\usepackage{paralist}       % lepší enumerate a itemize
+\usepackage{xcolor}         % barevná sazba
+
+\usepackage{todonotes}
+
+%%% Údaje o práci
+
+% Název práce v jazyce práce (přesně podle zadání)
+\def\NazevPrace{Vizualizace otevřených dat zveřejněných podle OFN pro úřední desky}
+
+% Název práce v angličtině
+\def\NazevPraceEN{Visualization of open data published according to the Formal Open Standard for public administration bulletin boards}
+
+% Jméno autora
+\def\AutorPrace{Evgenia Golubeva}
+
+% Rok odevzdání
+\def\RokOdevzdani{2022}
+
+% Název katedry nebo ústavu, kde byla práce oficiálně zadána
+% (dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF)
+\def\Katedra{Katedra softwarového inženýrství}
+\def\KatedraEN{Department of Software Engineering}
+
+% Jedná se o katedru (department) nebo o ústav (institute)?
+\def\TypPracoviste{Katedra}
+\def\TypPracovisteEN{Department}
+
+% Vedoucí práce: Jméno a příjmení s~tituly
+\def\Vedouci{RNDr. Jakub Klímek, Ph.D.}
+
+% Pracoviště vedoucího (opět dle Organizační struktury MFF)
+\def\KatedraVedouciho{Katedra softwarového inženýrství}
+\def\KatedraVedoucihoEN{Department of Software Engineering}
+
+% Studijní program a obor
+\def\StudijniProgram{Informatika}
+\def\StudijniObor{Programování a vývoj software}
+
+% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
+% zapůjčil software, literaturu apod.)
+\def\Podekovani{%
+\paragraph{Poděkování}
+
+Chtěla bych poděkovat svému vedoucímu RNDr. Jakubovi Klímkovi, Ph.D. za pravidelné konzultace k práci a velmi přínosnou zpětnou vazbu při vývoji aplikace.
+}
+
+% Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
+\def\Abstrakt{
+V rámci bakalářské práce byla navržena a vyvinuta aplikace, která vizualizuje informace z úředních desek, zveřejněné jako otevřená data podle nového jednotného a strojově čitelného formátu definovaného jako OFN (otevřená formální norma).
+Aplikace je určena zájemcům ze široké veřejnosti, kterým umožňuje informace prohlížet a filtrovat, ale také poskytovatelům dat. Aplikace provádí validaci zveřejněných dat a přehledně zobrazuje případné nedostatky v datech.
+K získávání dat využívá aplikace SPARQL endpointů Národního katalogu otevřených dat a Registru práv a povinností. Je navržena jako single-page application implementovaná v TypeScriptu s použitím frameworku React.
+}
+
+\def\AbstraktEN{%
+The Bachelor thesis is about the design and implementation of a web application which visualizes data from public administration bulletin boards. It uses open data published according to a new machine-readable format specified as a Formal Open Standard.
+The application is intended not only for users from the general public who can use it to search and filter information from bulletin boards but also for data publishers. The application performs validation of published data and clearly displays any deficiencies.
+To retrieve data the application uses the SPARQL endpoint of the National Data Catalog. It is implemented as a single-page application in TypeScript using React framework.
+
+}
+
+% 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
+\def\KlicovaSlova{%
+{otevřená data} {otevřená formální norma} {úřední desky} {webová aplikace} {vizualizace}
+}
+\def\KlicovaSlovaEN{%
+{open data} {bulletin boards} {web aplication} {visualization} 
+}
+
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%% Většinu nastavítek přednastaví balíček pdfx.
+\hypersetup{unicode}
+\hypersetup{breaklinks=true}
+
+%% Definice různých užitečných maker (viz popis uvnitř souboru)
+\include{makra}
+
+%% Titulní strana a různé povinné informační strany
+\begin{document}
+\include{titulka}
+
+%%% Strana s automaticky generovaným obsahem bakalářské práce
+
+\tableofcontents
+
+%%% Jednotlivé kapitoly práce jsou pro přehlednost uloženy v samostatných souborech
+\include{uvod}
+
+\include{kap01}
+\include{kap02}
+\include{kap03}
+\include{kap04}
+\include{kap05}
+\include{kap06}
+
+\include{zaver}
+
+%%% Seznam použité literatury
+\include{literatura}
+
+%%% Obrázky v bakalářské práci
+%%% (pokud jich je malé množství, obvykle není třeba seznam uvádět)
+\listoffigures
+
+%%% Tabulky v bakalářské práci (opět nemusí být nutné uvádět)
+%%% U matematických prací může být lepší přemístit seznam tabulek na začátek práce.
+%\listoftables
+
+%%% Použité zkratky v bakalářské práci (opět nemusí být nutné uvádět)
+%%% U matematických prací může být lepší přemístit seznam zkratek na začátek práce.
+\chapwithtoc{Seznam použitých zkratek}
+
+\begin{itemize}
+    \item[API] Application Programming Interface
+    \item[ČR] Česká republika
+    \item[DOM] Document Object Model
+    \item[HTML] Hypertext Markup Language
+    \item[HTTP] Hypertext Transfer Protocol
+    \item[IRI] Internationalized Resource Identifier
+    \item[IČO] Identifikační číslo osoby
+    \item[JSON] JavaScript Object Notation
+    \item[JSON-LD] JavaScript Object Notation for Linked Data
+    \item[JSX] JavaScript Syntax Extension, JavaScript XML
+    \item[MFF UK] Matematicko-fyzikální fakulta Univerzity Karlovy
+    \item[NKOD] Národní katalog otevřených dat
+    \item[OFN] Otevřená formální norma
+    \item[OVM] Orgán veřejné moci
+    \item[RDF] Resource Description Framework
+    \item[RPP] Registr práv a povinností
+    \item[RÚIAN] Registr územní identifikace, adres a nemovitostí
+    \item[SPARQL] SPARQL Protocol and RDF Query Language
+    \item[SUS] System Usability Scale
+    \item[URL] Uniform Resource Locator
+    \item[XML] Extensible Markup Language
+    
+\end{itemize}
+
+
+
+
+
+
+
+%%% Přílohy k bakalářské práci, existují-li. Každá příloha musí být alespoň jednou
+%%% odkazována z vlastního textu práce. Přílohy se číslují.
+%%%
+%%% Do tištěné verze se spíše hodí přílohy, které lze číst a prohlížet (dodatečné
+%%% tabulky a grafy, různé textové doplňky, ukázky výstupů z počítačových programů,
+%%% apod.). Do elektronické verze se hodí přílohy, které budou spíše používány
+%%% v elektronické podobě než čteny (zdrojové kódy programů, datové soubory,
+%%% interaktivní grafy apod.). Elektronické přílohy se nahrávají do SISu a lze
+%%% je také do práce vložit na CD/DVD. Povolené formáty souborů specifikuje
+%%% opatření rektora č. 72/2017.
+\appendix
+\chapter{Přílohy}
+
+\section{Výsledky uživatelského testování}
+
+V této části jsou tabulky s výsledky uživatelského testování podle metodiky System Usability Scale (SUS)\footnote{\url{https://www.usability.gov/how-to-and-tools/methods/system-usability-scale.html}}. Uživatele ve standartním dotazníku o 10 otázkách hodnotili použitelnost aplikace jedním z 5 stupni souhlasu od zcela nesouhlasím k určitě souhlasím. Tabulky jsme pro větší přehlednost umístili na šířku.
+
+\subsection{Počty odpovědí podle otázek}
+
+V tabulce \ref{table:vysledky1} jsou počty jednotlivých odpovědí pro každou otázku.  
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=1.4\textwidth, angle=-90]{cs/prilohy/uzivatelske_testovani_vysledky.pdf}
+%     \caption{Výsledky uživatelského testování podle SUS}
+%     \label{fig:testovani-vysledky}
+% \end{figure}
+
+\begin{sidewaystable}[]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Tvrzení}                                                                                                                                                               & \textbf{\begin{tabular}[c]{@{}c@{}}určitě \\ nesouhlasím\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}spíše\\  nesouhlasím\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}nemám\\ názor\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}spíše\\ souhlasím\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}určitě\\ souhlasím\end{tabular}} \\ \hline
+\textbf{1. Myslím, že bych chtěl tento systém často používat}                                                                                                                  & 0                                                                      & 3                                                                     & 3                                                              & 4                                                                  & 1                                                                   \\ \hline
+\textbf{2. Systém mi přišel příliš složitý}                                                                                                                                    & 10                                                                     & 0                                                                     & 0                                                              & 1                                                                  & 0                                                                   \\ \hline
+\textbf{3. Systém mi přišel snadno použitelný}                                                                                                                                 & 0                                                                      & 0                                                                     & 1                                                              & 4                                                                  & 6                                                                   \\ \hline
+\textbf{\begin{tabular}[c]{@{}l@{}}4. K tomu, abych mohl(a) používat tento systém\\ bych potřeboval(a) podporu technického personálu\end{tabular}}                             & 10                                                                     & 1                                                                     & 0                                                              & 0                                                                  & 0                                                                   \\ \hline
+\textbf{\begin{tabular}[c]{@{}l@{}}5. Přišlo mi, že různé funkce tohoto systému jsou\\ dobře integrovány\end{tabular}}                                                         & 0                                                                      & 0                                                                     & 1                                                              & 2                                                                  & 8                                                                   \\ \hline
+\textbf{\begin{tabular}[c]{@{}l@{}}6. Přišlo mi, že je systém příliš nekonzistentní \\ (rozdílné názvy pro stejné věci, \\ rozdílné ovládání podobných prvků...)\end{tabular}} & 7                                                                      & 2                                                                     & 1                                                              & 1                                                                  & 0                                                                   \\ \hline
+\textbf{\begin{tabular}[c]{@{}l@{}}7. Myslím, že většina lidí by se naučila s tímto\\  systémem zacházet velice rychle\end{tabular}}                                           & 0                                                                      & 0                                                                     & 0                                                              & 3                                                                  & 8                                                                   \\ \hline
+\textbf{8. Systém mi přišel velice těžkopádný}                                                                                                                                 & 6                                                                      & 3                                                                     & 0                                                              & 2                                                                  & 0                                                                   \\ \hline
+\textbf{9. Při používání systému jsem se cítil(a) že vím co dělám}                                                                                                             & 0                                                                      & 1                                                                     & 0                                                              & 1                                                                  & 9                                                                   \\ \hline
+\textbf{\begin{tabular}[c]{@{}l@{}}10. Před použitím systému jsem se musel(a) \\ naučit hodně věcí\end{tabular}}                                                               & 10                                                                     & 1                                                                     & 0                                                              & 0                                                                  & 0                                                                   \\ \hline
+\end{tabular}
+\caption{Výsledky uživatelského testování - podle otázek}
+\label{table:vysledky1}
+\end{sidewaystable}
+
+\subsection{Odpovědi a skóre podle uživatelů}
+
+V tabulce \ref{table:vysledky2} jsou vypsané odpovědi jednotlivých uživatelů a pro každého je spočítané výsledné skóre.
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=1.6\textwidth, angle=-90]{cs/prilohy/skoreSUS2.pdf}
+%     \caption{Skóre SUS pro jednotlivé uživatele}
+%     \label{fig:testovani-skore}
+% \end{figure}
+
+\begin{sidewaystable}
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Uživatel \\ \#\end{tabular}} & {\color[HTML]{EA4335} \textbf{\begin{tabular}[c]{@{}c@{}}Skóre\\  SUS\end{tabular}}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 1\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 2\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 3\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 4\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 5\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 6\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 7\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 8\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 9\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Trvzení\\ 10\end{tabular}} \\ \hline
+1                                                               & {\color[HTML]{EA4335} 82.5}                                                          & 4                                                            & 1                                                            & 4                                                            & 1                                                            & 5                                                            & 3                                                            & 5                                                            & 4                                                            & 5                                                            & 1                                                             \\ \hline
+2                                                               & {\color[HTML]{EA4335} 87.5}                                                          & 2                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 2                                                            & 4                                                            & 1                                                            & 5                                                            & 1                                                             \\ \hline
+3                                                               & {\color[HTML]{EA4335} 95}                                                            & 3                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 1                                                             \\ \hline
+4                                                               & {\color[HTML]{EA4335} 90}                                                            & 3                                                            & 1                                                            & 4                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 2                                                            & 5                                                            & 1                                                             \\ \hline
+5                                                               & {\color[HTML]{EA4335} 100}                                                           & 5                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 1                                                             \\ \hline
+6                                                               & {\color[HTML]{EA4335} 92.5}                                                          & 3                                                            & 1                                                            & 5                                                            & 1                                                            & 4                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 1                                                             \\ \hline
+7                                                               & {\color[HTML]{EA4335} 85}                                                            & 4                                                            & 1                                                            & 5                                                            & 1                                                            & 4                                                            & 2                                                            & 4                                                            & 2                                                            & 4                                                            & 1                                                             \\ \hline
+8                                                               & {\color[HTML]{EA4335} 87.5}                                                          & 4                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 4                                                            & 4                                                            & 1                                                            & 5                                                            & 1                                                             \\ \hline
+9                                                               & {\color[HTML]{EA4335} 82.5}                                                          & 2                                                            & 1                                                            & 4                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 4                                                            & 5                                                            & 1                                                             \\ \hline
+10                                                              & {\color[HTML]{EA4335} 95}                                                            & 4                                                            & 1                                                            & 4                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 1                                                            & 5                                                            & 1                                                             \\ \hline
+11                                                              & {\color[HTML]{EA4335} 60}                                                            & 2                                                            & 4                                                            & 3                                                            & 2                                                            & 3                                                            & 1                                                            & 5                                                            & 2                                                            & 2                                                            & 2                                                             \\ \hline
+\end{tabular}
+\caption{Výsledky uživatelského testování - podle uživatelů}
+\label{table:vysledky2}
+\end{sidewaystable}
+
+
+\section{Repozitáře}
+
+Přílohou práce jsou repozitáře se zdrojovým kódem aplikace a dokumentace. Stav repozitáře v momentě odevzdání práce je označen tagem \texttt{odevzdani}. Snapshot repozitářů z tohoto tagu je přiložený ve formátu ZIP.
+
+\subsection{Repozitář \texttt{uredni\_desky}} \label{sub:repo1}
+
+Repozitář \texttt{uredni\_desky} normálně přístupný na URL \url{https://github.com/bliakher/uredni_desky} obsahuje veškerý zdrojový kód aplikace popsané v práci. Struktura repozitáře je popsaná ve vývojářské dokumentaci (\autoref{sec:developer-docs}).
+
+\subsection{Repozitář \texttt{uredni\_desky\_docs} \label{sub:repo2}}
+
+Repozitář \texttt{uredni\_desky\_docs} normálně přístupný na URL \url{https://github.com/bliakher/uredni_desky_docs} obsahuje dokumentaci práce. Dokumentace je zveřejněná online na adrese \url{https://bliakher.github.io/uredni_desky_docs/}. Tyto webové stránky jsou vytvořené pomocí nástroje Jekyll \footnote{\url{https://jekyllrb.com/}} a nasazené na GitHub Pages. Repozitář obsahuje text dokumentace v podobě souborů ve formátu Markdown \footnote{\url{https://www.markdownguide.org/}} a konfiguraci nástroje Jekyll, který umí ze souborů v tomto formátu vytvořit statické webové stránky.
+
+\openright
+\end{document}

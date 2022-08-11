@@ -1,0 +1,52 @@
+\chapter*{Úvod}
+\addcontentsline{toc}{chapter}{Úvod}
+
+Každý správní úřad zřizuje úřední desku, kde má povinnost zveřejňovat určité informace. Jedná se o vyhlášky, informace o veřejných zakázkách, stavebních řízeních a dražbách apod. Informace jsou zveřejňované dvojím způsobem - fyzicky na veřejně přístupném místě a elektronicky. Do nedávné doby nebyl zákonem daný formát elektronické verze úřední desky. Proto se ve většině případů jednalo o seznam dokumentů zveřejněný na stránkách daného úřadu.
+
+Lze předpokládat, že osoby i firmy mají zájem o to, získávat data z úředních desek přehledně na jednom místě. V této práci analyzujeme 2 projekty, které se tuto potřebu pokoušely naplnit. 
+
+Prvním takovým projektem jsou eDesky, které shromažďují elektronické \\ úřední desky, umožňují prohlížet informace na nich zveřejněné a vyhledávat v nich. Tyto úkoly jsou poměrně složité, neboť je nutné každou desku do aplikace zaregistrovat - v době vzniku aplikace eDesky neexistoval žádný seznam všech úředních desek ani žádné společné API pro přístup k nim. Také nebyl určený formát zveřejňování, ke každé úřední desce se tedy muselo přistupovat individuálně.
+
+Druhým projektem byla Mapa samosprávy. Jednalo se o aplikaci, která propojovala informace z úředních desek s místem, kterého se týkají. Po vybrání lokality na mapě aplikace zobrazila data a vyhlášky o lokalitě. Projekt pro získávání dat využíval API, které poskytuje aplikace eDesky. V dnešní době web aplikace není funkční. Autor aplikace L. Svoboda zmiňuje jako jeden z problémů, který snižuje přesnost vyhledávání v datech, to, že úřady neposkytují data ve vhodném formátu.\cite{Aktualne}
+
+Detailní srovnání výše zmíněných projektů provedeme v části \autoref{sec:analyza}.
+
+Popsané problémy se pokouší řešit změna v zákoně o svobodném přístupu k informacím, která některým orgánům (jedná se o státní orgány, krajské úřady a obecní úřady obcí s rozšířenou působností) ukládá povinnost zveřejňovat metadata z úředních desek jako otevřená data. 
+
+Otevřená data jsou \uv{informace zveřejňované způsobem umožňujícím dálkový přístup v otevřeném a strojově čitelném formátu, jejichž způsob ani účel následného využití není omezen} \cite{ZakonSvobodny3-11} . Pro úřední desky byl určen jednotný formát, dle kterého musí být data strukturována, a také způsob, kterým je možné se dostat ke všem takto zveřejněným deskám.
+
+Jednotný formát je popsaný jako Otevřená formální norma (OFN). Jedná se o technická doporučení, která mají zajistit, aby data publikovaná různými entitami byla interoperabilní. Tedy aby bylo možné data využívat nezávisle na poskytovateli, od kterého pocházejí \cite{OFN}. 
+
+Otevřená data jsou zveřejňována v Národním katalogu otevřených dat (NKOD) (podrobněji \autoref{sec:nkod}). NKOD si ukládá informace o zveřejněných datech jako např. téma a zaměření dat a informace o jejich poskytovateli. Dále obsahuje odkazy na distribuce dat v různých formátech. Katalog také nabízí veřejné API, které umožňuje v datech vyhledávat. 
+
+\section*{Motivace a cíle práce}
+
+Data publikovaná podle nových doporučení popsaných výše umožňují vytvoření aplikace, která se bude funkcionalitami podobat aplikaci eDesky, ale data z úředních desek bude získávat automaticky z NKOD. Tedy při zveřejnění nové úřední desky poskytovatelem ve správném formátu se deska automaticky objeví v aplikaci bez potřeby konfigurace.
+
+Cílem této práce je vytvořit takovou aplikaci. Práce prozkoumá možnosti vizualizace otevřených dat z úředních desek a navrhne způsoby jak data vizualizovat na základě požadavků předpokládaných uživatelů. 
+
+Tři hlavní způsoby vizualizace, kterými se práce bude zabývat jsou následující:
+\begin{itemize}
+    \item Zobrazení úřední desky v podobě digitální desky, na které je možné vyhledávat mezi vyvěšenými informacemi.
+    \item Zobrazení úředních desek na mapě podle polohy poskytovatele.
+    \item Statistické shrnutí kvality dat.
+\end{itemize}
+
+Aplikace bude nabízet možnost prohlížet úřední desky a informace na nich, filtrovat desky do kategorií a vyhledávat v nich. Práce by měla podpořit zveřejňování dat v novém formátu praktickou ukázkou jejich využití. Díky standardizovanému formátu poskytovateli stačí data správně zveřejnit, aplikace pak bude umět tato data získat a přehledně vizualizovat jako elektronickou úřední desku.
+
+Dalším cílem je zlepšit kvalitu dat a umožnit lepší porozumění jednotlivým položkám a aspektům nového datového formátu. Tohoto bude dosaženo ve validační části aplikace, kde se bude kontrolovat, že deska odpovídá formátu podle specifikace OFN pro úřední desky. Bude také vysvětleno, jaký je význam jednotlivých položek v datech, což by mělo motivovat poskytovatele dat k zlepšování jejich kvality.
+
+
+\section*{Struktura práce}
+
+V následujících kapitolách je nejprve popsán stav otevřených dat v ČR (\autoref{kap:opendata}), konkrétně co označujeme za otevřená data, jak se data zveřejňují a shromažďují. Jsou zde popsány 3 české registry otevřených dat, které aplikace využívá --- Národní katalog otevřených dat (\autoref{sec:nkod}), Registr práv a povinností (\autoref{subsec:rpp}) a Registr územní identifikace, adres a nemovitostí (\autoref{subsec:ruian}) --- a jejich technické aspekty. Dále přiblížíme Otevřené formální normy (OFN) a to, jak se používají pro specifikaci formátu pro zveřejňování dat (\autoref{sec:ofn}). Kapitola se také podrobněji věnuje OFN pro úřední desky (\autoref{subsec:ofn-uredni}). Poté jsou analyzovány existující aplikace pro vizualizaci úředních desek (\autoref{sec:analyza}).
+
+Další kapitola se týká analýzy požadavků na vyvíjenou aplikaci (\autoref{kap:pozadavky}), které jsou poté sepsané do případů užití aplikace (\autoref{sec:use-cases}).
+
+Třetí kapitola je věnovaná návrhu. Na základě požadavků je proveden návrh aplikace, kde se zabýváme uživatelským rozhraním (\autoref{sec:moduly}), architekturou aplikace (\autoref{sec:architektura}) a tím, jakým způsobem aplikace získává data, se kterými pracuje, a její závislosti na externích systémech (\autoref{sec:ziskavani-dat}).
+
+Čtvrtá kapitola se zabývá konkrétními implementačními rozhodnutími a jejich zdůvodněním (\autoref{kap:implementace}).
+
+V kapitole \ref{kap:dokumentace} najdeme uživatelskou, vývojářskou a administrátorskou dokumentaci aplikace.
+
+Následuje evaluační část práce, kde jsou zhodnoceny přínosy a nedostatky aplikace na základě podnětů získaných z uživatelského testování aplikace (\autoref{kap:evaluace}).

@@ -1,0 +1,147 @@
+
+\chapter{Otevřená data v ČR}\label{kap:opendata}
+
+V této kapitole bude popsán stav otevřených dat v ČR. Jak a kde se data zveřejňují a jak je možné popsat formát zveřejňovaných dat.
+
+Zákon o svobodném přístupu k informacím ve výkladu základních pojmů \cite{ZakonSvobodny3} definuje otevřená data jako \uv{informace zveřejňované způsobem umožňujícím dálkový přístup v otevřeném a strojově čitelném formátu, jejichž způsob ani účel následného využití není omezen}. Jedná se tedy o volně přístupná data, která je možné pomocí programového vybavení nalézt, rozpoznat jejich strukturu a získat z nich konkrétní informace. 
+
+Zákon dále ukládá, že otevřená data musí být zveřejněna v Národním katalogu otevřených dat.
+
+\section{Národní katalog otevřených dat}\label{sec:nkod}
+
+Národní katalog otevřených dat (NKOD) \cite{NKOD} je informační systém spravovaný Ministerstvem vnitra, který slouží k evidenci zveřejněných otevřených dat a umožňuje přístup k těmto datům. 
+
+Poskytovatelé zveřejňující otevřená data se v katalogu registrují a vedou evidenci svých dat. NKOD vytváří jednotné rozhraní, které umožňuje strukturovaně procházet a vyhledávat ve všech otevřených datech zveřejněných v ČR.
+
+Soubor dat od jednoho poskytovatele, týkajících se společného tématu, představuje v NKOD datovou sadu. Katalog si k datové sadě ukládá metadata, která popisují kontext datové sady a její vnitřní strukturu. Mezi metadata patří informace o poskytovateli dat, název a téma datové sady, a také specifikace datového formátu a jeho dokumentace. Záznam v NKOD dále obsahuje seznam distribucí datové sady. 
+
+Distribuce jsou samotná data zveřejněná poskytovatelem v konkrétním datovém formátu. Katalog si eviduje pouze metadata a způsob, jak je možné data z datové sady získat, data samotná jsou zveřejněná pouze na straně poskytovatele. Záznam v NKOD obsahuje odkaz na distribuci, schéma datového formátu a podmínky užití dat. Jedna datová sada může obsahovat více distribucí v různých datových formátech.
+
+Přístup k datům v NKOD umožňuje webová aplikace \footnote{\url{https://data.gov.cz/datové-sady}}, a také 3 API pro strojový přístup --- SPARQL \cite{SPARQL} endpoint, Linked Data Fragments \cite{LinkedData} endpoint a GraphQL \cite{Graphql} endpoint. 
+
+V rámci práce je využit SPARQL endpoint \url{https://data.gov.cz/sparql}, pro získání metadat o zveřejněných úředních deskách. Konkrétně se provádí SPARQL dotaz na všechny datové sady v katalogu, které obsahují distribuci odpovídající schématu OFN pro úřední desky. Z NKOD získá metadata k datové sadě --- IRI datové sady, její název a popis, informace o poskytovateli dat, který datovou sadu zveřejnil v NKOD a odkaz na distribuci ve formátu JSON-LD \cite{JSON-LD}. Technické detaily jsou popsané v rámci implementace aplikace v sekci \ref{sec:ziskavani-dat}
+
+
+\section{Otevřené formální normy}\label{sec:ofn}
+
+Otevřené formální normy definuje zákon o svobodném přístupu k informacím \cite{ZakonSvobodny3}. Jedná se o písemně vydanou specifikaci, která obsahuje technická doporučení pro poskytovatele otevřených dat, která mají zajistit co největší interoperabilitu dat \cite{OFN}.
+
+Otevřená formální norma se vždy týká konkrétního tématu, jako jsou například informace o \href{https://ofn.gov.cz/sportoviště/2020-07-01/}{sportovištích}, \href{https://ofn.gov.cz/turistické-cíle/2020-07-01/}{turistických cílech}, nabídce \href{https://ofn.gov.cz/pracovní-místa/2021-09-23/}{pracovních míst} nebo informace zveřejněné na \href{https://ofn.gov.cz/úřední-desky/2021-07-20/}{úředních deskách}. Pokud se poskytovatelé zveřejňující datovou sadu, která se týká věci, popsané otevřenou formální normou, drží normy a použijí formát, definovaný normou, je pak možné shromažďovat data na stejné téma od různých poskytovatelů a strojově je zpracovávat. Tím je dosaženo interoperability.
+
+Otevřená formální norma obsahuje specifikaci datové sady, kde jsou popsané položky, které datová sada může obsahovat. Konkrétně název položky, její datový typ a popisek, který vysvětluje význam položky v datové sadě. Všechny datové položky jsou nepovinné, normu je tedy možné přizpůsobit konkrétním datům, které poskytovatel dat má. 
+
+V normě nalezneme příklady toho, jak mohou zveřejněná data vypadat. Příklady mají různý rozsah. Norma vždy definuje minimální sadu doporučených položek, bez kterých publikace dat ztrácí smysl, protože data nebude možné rozumně použít. Mezi příklady jsou dále i rozsáhlejší data, která využívají více datových položek. Norma také obsahuje JSON schéma formátu, které je možné přiložit k datové sadě při zveřejnění v NKOD.
+
+Pro poskytovatele, kteří jsou povinnými subjekty podle § 4b odst. 1 zákona č. 106/1999 Sb. o svobodném přístupu k informacím\cite{ZakonSvobodny4b} jsou otevřené formální normy závazné. V případě informací z úředních desek mají (podle § 5a odst. 3 zákona č. 106/1999 Sb. o svobodném přístupu k informacím\cite{ZakonSvobodny5a}) státní orgány, krajské úřady a obecní úřady obcí s rozšířenou působností povinnost zveřejňovat metadata z úředních desek jako otevřená data podle otevřené formální normy pro úřední desky.
+
+\subsection{Otevřená formální norma pro úřední desky}\label{subsec:ofn-uredni}
+
+Otevřená formální norma pro úřední desky \cite{OFN-UD} specifikuje metadata k úředním deskám, která se mají zveřejňovat. 
+
+První část datových položek definovaných v normě jsou metadata, která se týkají celé úřední desky. Jedná se o:
+\begin{itemize}
+    \item URL webové stránky, kde je deska zveřejněná
+    \item provozovatel desky, což může být právnická osoba nebo orgán veřejné moci
+    \item umístění fyzické úřední desky
+\end{itemize}
+
+Druhou část tvoří metadata jednotlivých informací zveřejněných na úřední desce. Do doporučených datových položek k informaci na desce patří:
+\begin{itemize}
+    \item IRI, což je jednoznačný a univerzální identifikátor informace
+    \item URL, na kterém je informace zveřejněná
+    \item název informace
+    \item datum vyvěšení
+    \item datum, do kterého je informace relevantní (datum relevance)
+\end{itemize}
+K informaci můžou být poskytnuta rozšiřující metadata, např. datum schválení, spisová značka, přílohy a další.
+
+Aplikace, která je předmětem práce, využívá dat z úředních desek zveřejněných podle otevřené formální normy pro úřední desky. Tato data získává z NKOD a vizualizuje je. Dále provádí validaci dat podle schématu z otevřené formální normy, přičemž se řídí seznamem doporučených položek.
+
+V rámci dat, se kterými aplikace pracuje je potřeba rozlišovat mezi poskytovatelem dat, který publikuje data v NKOD a provozovatelem úřední desky. První zmíněný je uveden jako poskytovatel v metadatech datové sady v NKOD, druhý je vyznačený jako poskytovatel uvnitř distribuce. Tento rozdíl je způsobený tím, že konkrétní úřad, který spravuje úřední desku může zveřejňování dat delegovat například na svoji zaštiťující organizaci, tak jako v případě Českého úřadu zeměměřičského a katastrálního, který publikuje data z úředních desek krajských katastrálních úřadů. 
+
+\subsection{Registr práv a povinností}\label{subsec:rpp}
+
+Registr práv a povinností (RPP) je jedním ze základních registrů státní správy, který eviduje údaje o orgánech veřejné moci (OVM), jejich agendách, právech a povinnostech \cite{RPP-about}.
+
+Způsob publikace informací v registru práv a povinností jako otevřených dat je definovaný pomocí otevřených formálních norem \cite{OFN-RPP}. Speciálně OFN pro RPP - orgány veřejné moci \cite{OFN-RPP-OVM} definuje, které informace popisující OVM se zveřejňují. Patří sem identifikátor OVM a IČO, osoba v čele OVM, právní forma OVM a další informace jako adresa sídla a datové schránky.
+
+Data z RPP jsou zveřejněná ve formátu RDF a je možné k nim přistupovat pomocí SPARQL endpointu \url{https://rpp-opendata.egon.gov.cz/odrpp/sparql}.
+
+Aplikace z endpointu RPP dostává informace o právní formě orgánů veřejné moci, které jsou poskytovateli dat z úředních desek. Mezi poskytovateli úředních desek nejčastější nalezneme právní formy obce, kraje, městské části a městské obvody a organizační složky státu. Aplikace umožňuje filtrovat úřední desky do kategorií podle právní formy poskytovatele.
+
+Aplikace dále využívá RPP k získání adresy sídla OVM. Adresu využívá k vizualizaci úředních desek na mapě ČR. OFN pro úřední desky sice obsahuje položku umístění úřední desky, která by mohla být použita ke stejnému účelu. Nicméně, po prozkoumání existujících dat z úředních desek, dojdeme k závěru, že většina poskytovatelů položku umístění nevyplňuje, proto není možné ji v aplikaci použít k vizualizaci na mapě. Použití adresy sídla poskytovatele je nepřesné, protože se nemusí jednat o fyzické umístění desky.
+
+V RPP je adresa sídla orgánu uvedena jako adresní místo odkazující do Registru územní identifikace, adres a nemovitostí.
+
+\subsection{Registr územní identifikace, adres a nemovitostí}\label{subsec:ruian}
+
+Registr územní identifikace, adres a nemovitostí (RÚIAN) \cite{RUIAN} je registr státní správy, který obsahuje informace o adresách a územních prvcích. Záznam adresního místa v RÚIAN obsahuje lidsky čitelnou adresu a souřadnice adresního bodu, které je možné využít pro vizualizaci v mapě.
+
+Přestože jsou adresní místa jednoznačně identifikována pomocí IRI, RÚIAN v současné době nenabízí žádný oficiální endpoint pro strojový přístup k datům ve formátu RDF. V aplikaci je proto využit experimentální SPARQL endpoint \url{https://linked.cuzk.cz.opendata.cz/sparql} provozovaný na MFF UK.
+
+
+
+
+\section{Analýza existujících řešení}\label{sec:analyza}
+
+V této části analyzujeme existující řešení pro prohlížení informací zveřejněných na úředních deskách. Po provedení průzkumu existujících řešení byly objeveny 2 aplikace pro prohlížení úředních desek, z nichž pouze jedna je momentálně v provozu.
+
+\subsection{Mapa samosprávy}
+
+Prvním řešením je webová aplikace Mapa samosprávy. Tato aplikace v současné době není v provozu, o její podobě proto můžeme usuzovat pouze z popisu aplikace v článku na serveru \url{Aktuálně.cz}\cite{Aktualne}. Aplikace propojovala informace zveřejněné na elektronických úředních deskách s polohou místa, kterého se informace týká. V aplikaci bylo možné vybrat místo na interaktivní mapě pro které se zobrazily informace o něm.
+
+Autor aplikace L. Svoboda v uvedeném článku zmiňuje jako jeden z problémů, který snižuje přesnost vyhledávání v datech, to, že úřady neposkytují data z úředních desek ve vhodném formátu. 
+
+Toto řešení není pro nás příliš relevantní, protože nelze zjistit jeho přesné funkcionality. Nebudeme ho proto uvažovat v porovnání existujících řešení a navrhovaného řešení.
+
+\subsection{eDesky}
+
+Druhým existujícím řešením, které je v současné době funkční jsou eDesky\footnote{\url{https://edesky.cz}}. Jedná se o webovou aplikaci, která nabízí uživatelské rozhraní pro prohlížení úředních desek a vyhledávání informací podle klíčových slov.
+
+Při analýze aplikace jsme identifikovali tyto hlavní funkcionality. Popis jednotlivých funkcionalit je odvozen z informací na webu aplikace a představou o předpokládané implementaci aplikace. 
+
+\begin{enumerate}
+    \item \textbf{Manuální přidávání desek} Fungování aplikace je založené na manuálním přidávání jednotlivých úředních desek, které se provádí na základě žádosti uživatelů. Aby bylo možné úřední desku zobrazit je nejprve potřeba připojit rozhraní, kde je zveřejněná do systému eDesek, aby mohla aplikace získávat data. Zažádat o přidání desky je možné vyplněním formuláře v aplikaci. 
+    
+    \item \textbf{Přehled všech úředních desek} Aplikace v části ``Seznam úředních desek'' zobrazuje přehled všech úředních desek, která má aplikace nahrané.
+    
+    \item  \textbf{Rozdělení desek do kategorií podle poskytovatele} Úřední desky jsou v přehledu rozděleny do kategorií podle typu poskytovatele. Jsou to kraje, okresní města, městské části, městysi nebo obce a státní instituce.
+    
+    \item  \textbf{Vyhledání desky podle názvu poskytovatele} Aplikace obsahuje část ``Hledání'', ve které je možné vyhledat úřední desku podle názvu poskytovatele. Hledání je také možné zúžit vybráním regionu.
+    
+    \item \textbf{Vyhledávání informací} Aplikace v části ``Hledání'' umožňuje vyhledávání v informacích z úředních desek na základě klíčových slov.
+    
+    \item \textbf{Načítání dokumentů} Aplikace umí načítat dokumenty, které jsou přílohou informací a umožňuje je vyhledat a zobrazit.
+    
+    \item \textbf{API pro získání dat} Aplikace nabízí svoje API pro získání dat, se kterými pracuje. API je zdokumentované v Apiary\footnote{\url{https://edeskyv1.docs.apiary.io/\#reference}}
+    
+    \item \textbf{Notifikace uživatele při aktualizaci desky} V aplikaci je možné si nastavit zasílání nových informací z nějaké úřední desky na email.
+\end{enumerate}
+
+Tato práce si klade za cíl hlavně změnit způsob, jakým aplikace získává data. Díky jednotnému formátu pro zveřejňování dat z úředních desek, který je daný specifikací OFN pro úřední desky, a tomu, že jsou záznamy o zveřejněných deskách shromážděné v NKOD je možné data získat automatizovaně, požadavkem na endpoint NKOD. 
+
+Navrhovaná aplikace zároveň nebude nabízet vlastní endpoint pro přístup k datům, protože získává data z již existujícího otevřeného endpointu.
+
+Dále chceme zachovat základní funkcionality, jako je prohlížení a filtrování úředních desek a přidat validaci dat, kterou také umožňuje jednotný formát zveřejňování. Aplikace, která je cílem práce, se dále inspiruje popisem aplikace Mapa samosprávy a bude nabízet i zobrazení úředních desek na mapě.
+
+Navrhovaná aplikace bude pracovat pouze s daty, která jsou zveřejněná podle OFN, což jsou pouze metadata informací z úředních desek (viz \autoref{subsec:ofn-uredni}). Nebude tedy pracovat přímo s obsahem informací, protože není popsaný společným formátem. Toto částečně omezuje možnosti aplikace.
+
+Následuje srovnání funkcionalit aplikace eDesky a navrhovaného řešení.
+
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{funkcionalita}                                                                        & \textbf{eDesky}                                                                             & \textbf{tato práce}                                                 \\ \hline
+nalezení úřední desky                                                                         & manuální                                                                                    & automatizované                                                      \\ \hline
+přehled všech úředních desek                                                                  & ano                                                                                         & ano                                                                 \\ \hline
+\begin{tabular}[c]{@{}l@{}}rozdělení desek do kategorií \\ podle poskytovatele\end{tabular}   & \begin{tabular}[c]{@{}l@{}}ano (kategorie města, \\ kraje, státní instituce..)\end{tabular} & \begin{tabular}[c]{@{}l@{}}ano \\ (podle právní formy)\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}vyhledání desky \\ podle názvu poskytovatele\end{tabular}          & ano                                                                                         & ano                                                                 \\ \hline
+vyhledávání informací                                                                         & ano                                                                                         & ano                                                                 \\ \hline
+načítání dokumentů                                                                            & ano                                                                                         & ne                                                                  \\ \hline
+\begin{tabular}[c]{@{}l@{}}notifikace uživatele emailem\\  při aktualizaci desky\end{tabular} & ano                                                                                         & ne                                                                  \\ \hline
+API pro získání dat                                                                           & ano                                                                                         & ne                                                                  \\ \hline
+zobrazení desek na mapě                                                                       & ne                                                                                          & ano                                                                 \\ \hline
+validace dat                                                                                  & ne                                                                                          & ano                                                                 \\ \hline
+\end{tabular}
+\caption{Srovnání funkcionalit aplikace eDesky a navrhovaného řešení}
+\end{table}
